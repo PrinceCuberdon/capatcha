@@ -19,7 +19,7 @@ from django.contrib.admin.widgets import AdminFileWidget
 from django.utils.safestring import mark_safe
 from django.conf import settings
 
-from capatcha.models import Preference
+from libs.capatcha.models import Preference
 
 class AdminImageWidget(AdminFileWidget):
     """ Affichage d'une miniature dans l'admin """

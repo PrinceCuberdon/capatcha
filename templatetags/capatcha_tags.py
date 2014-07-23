@@ -23,7 +23,7 @@ Utilisation :
 <img src="{{capacha.path}}" />
 
 une variable de session request.session['capatcha'] est mise sur l'objet capatcha défini ci-dessous
-par conséquence, l'objet request doit être passé dans la vue.
+par consequence, l'objet request doit être passé dans la vue.
 
 Caution : capatcha.path MUST be in a block due to Django limitation
 """
@@ -38,9 +38,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 from django import template
 from django.conf import settings
-from capatcha.models import Preference
+from libs.capatcha.models import Preference
 
 register = template.Library()
+
 
 class Capatcha(object):
     def __init__(self, request):
@@ -49,7 +50,7 @@ class Capatcha(object):
         try:
             pref = Preference.objects.get(id=1)
         except:
-            raise Exception(u"Les préférences ne sont pas renseignées")
+            raise Exception(u"Preferences are not set")
         
         request.session['capatcha'] = self
         

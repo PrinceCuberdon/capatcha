@@ -29,16 +29,16 @@ Caution : capatcha.path MUST be in a block due to Django limitation
 """
 
 import random
-import os
 import sys
 import time
 import datetime
 
+import os
 from PIL import Image, ImageDraw, ImageFont
-
 from django import template
 from django.conf import settings
-from libs.capatcha.models import Preference
+
+from capatcha.models import Preference
 
 register = template.Library()
 

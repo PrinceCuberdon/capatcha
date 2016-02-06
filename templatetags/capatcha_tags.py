@@ -65,7 +65,7 @@ class Capatcha(object):
         imgrelpath = os.path.join(settings.MEDIA_URL, settings.CAPATCHA_CONFIG.temp, '%s.png' % request.session._get_session_key())
         if sys.platform == 'win32':
             imgrelpath = imgrelpath.replace("\\", '/')
-        img.save("%s%s" % (settings.PROJECT_PATH, imgrelpath), 'PNG')
+        img.save("%s%s" % (settings.BASE_DIR, imgrelpath), 'PNG')
 
         self.key = code
         self.path = imgrelpath

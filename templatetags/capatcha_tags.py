@@ -46,14 +46,14 @@ register = template.Library()
 class Capatcha(object):
     def __init__(self, request):
         self.removeOld()
-        
+
         try:
             pref = Preference.objects.get(id=1)
         except:
             raise Exception(u"Preferences are not set")
-        
+
         request.session['capatcha'] = self
-        
+
         random.seed(os.urandom(10))
         code = ''.join([random.choice(pref.charset) for unused_i in xrange(pref.size)])
         img = Image.open(pref.background.path)
@@ -80,12 +80,12 @@ class Capatcha(object):
             return self.key == value
         except:
             pass
-        
+
         return False
-        
+
     def removeOld(self):
         """ Remove all capatcha where date stamp is < as today """
-        rootpath = os.path.join(settings.MEDIA_ROOT,settings.CAPATCHA_CONFIG.temp)
+        rootpath = os.path.join(settings.MEDIA_ROOT, settings.CAPATCHA_CONFIG.temp)
         for current_file in os.listdir(rootpath):
             unused_name, ext = os.path.splitext(current_file)
             if not ext == '.png':
@@ -93,24 +93,25 @@ class Capatcha(object):
             f = os.path.join(rootpath, current_file)
             today_date = datetime.datetime.fromtimestamp(time.time())
             today_date = datetime.datetime(today_date.year, today_date.month, today_date.day)
-            
+
             file_date = datetime.datetime.fromtimestamp(os.path.getctime(f))
             file_date = datetime.datetime(file_date.year, file_date.month, file_date.day)
-            
+
             if file_date < today_date:
                 try:
                     os.remove(f)
                 except:
                     pass
 
+
 class CapatchaNode(template.Node):
     def render(self, context):
-        context['capatcha'] = Capatcha(context['request']) # Pour la vue
-        context['request'].session['capatcha'] = context['capatcha'] # Pour le controler
+        context['capatcha'] = Capatcha(context['request'])  # Pour la vue
+        context['request'].session['capatcha'] = context['capatcha']  # Pour le controler
         return ''
+
 
 @register.tag
 def create_capatcha(parser, token):
     """ Création d'un capatcha (voir __doc__)"""
     return CapatchaNode()
-

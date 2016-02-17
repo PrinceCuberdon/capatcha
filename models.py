@@ -45,3 +45,6 @@ class Preference(models.Model):
 
     def __unicode__(self):
         return u"Préférences"
+
+    class Meta:
+        app_label = "capatcha"

@@ -37,7 +37,8 @@ class TestCapatcha(TestCase):
         req.user = AnonymousUser()
         req.session = SessionBase()
         result = Template(tpl).render(RequestContext(req))
-        self.assertEqual(result, os.path.join(settings.MEDIA_URL, settings.CAPATCHA_CONFIG.temp, u"None.png"))
+        # Replace because of Windows Platform
+        self.assertEqual(result, os.path.join(settings.MEDIA_URL, settings.CAPATCHA_CONFIG.temp, u"None.png").replace('\\', '/'))
 
     def test_capatcha_object_remove_old(self):
         """ this can't be tested here due to Unix mecanism about creation date """

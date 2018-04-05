@@ -50,13 +50,11 @@ class Capatcha(object):
         draw = ImageDraw.Draw(img)
         fwidth, fheight = draw.textsize(code, font=font)
         draw.text(((width - fwidth) / 2, (height - fheight) / 2), code, fill='#000000', font=font)
-        imgrelpath = os.path.join(settings.MEDIA_URL, settings.CAPATCHA_CONFIG.temp, '%s.png' % request.session._get_session_key())
-        if sys.platform == 'win32':
-            imgrelpath = imgrelpath.replace("\\", '/')
-        img.save("%s%s" % (settings.BASE_DIR, imgrelpath), 'PNG')
+        imgrelpath = os.path.join(settings.CAPATCHA_CONFIG.temp, '%s.png' % request.session._get_session_key())
+        img.save("%s/%s" % (settings.MEDIA_ROOT, imgrelpath), 'PNG')
 
         self.key = code
-        self.path = imgrelpath
+        self.path = "{url}/{path}".format(url=settings.MEDIA_URL, path=imgrelpath)
         self.casesensitive = pref.casesensitive
 
     def isValid(self, value):
